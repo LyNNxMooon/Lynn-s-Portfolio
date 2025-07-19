@@ -194,7 +194,7 @@ export const Hero: React.FC<HeroProps> = ({ personalInfo, onUpdatePersonalInfo, 
             />
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">
             <EditableText
               value={personalInfo.name}
               onChange={(value) => onUpdatePersonalInfo({ ...personalInfo, name: value })}
