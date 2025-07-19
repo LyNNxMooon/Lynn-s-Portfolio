@@ -44,10 +44,9 @@ export const Header: React.FC<HeaderProps> = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onEditClick}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all duration-300 shadow-lg"
           >
-            <Edit3 className="w-4 h-4" />
-            <span className="hidden sm:inline">Edit</span>
+            <span className="hidden sm:inline"></span>
           </motion.button>
 
           <div className="flex items-center gap-4">
