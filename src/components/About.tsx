@@ -299,45 +299,106 @@ export const About: React.FC<AboutProps> = ({
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: (categoryIndex * 0.1) + (skillIndex * 0.05) }}
-                                className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-700 relative group"
+                                className="p-3 bg-gray-800/50 rounded-lg border border-gray-700 relative group"
                               >
-                                <div className="flex items-center gap-3">
-                                  {skill.logo && (
-                                    <img 
-                                      src={skill.logo} 
-                                      alt={skill.name}
-                                      className="w-6 h-6"
-                                      onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                      }}
-                                    />
-                                  )}
-                                  <span className="font-medium text-gray-200">
-                                    <EditableText
-                                      value={skill.name}
-                                      onChange={(value) => {
-                                        const updated = skills.map(s => 
-                                          s.id === skill.id ? { ...s, name: value } : s
-                                        );
-                                        onUpdateSkills(updated);
-                                      }}
-                                      isEditing={isEditing}
-                                      className="font-medium text-gray-200"
-                                      placeholder="Skill name"
-                                    />
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
-                                    <div 
-                                      className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all duration-300"
-                                      style={{ width: `${skill.level}%` }}
-                                    />
+                                <div className="space-y-3">
+                                  <div className="flex items-center gap-3">
+                                    {skill.logo && (
+                                      <img 
+                                        src={skill.logo} 
+                                        alt={skill.name}
+                                        className="w-6 h-6"
+                                        onError={(e) => {
+                                          e.currentTarget.style.display = 'none';
+                                        }}
+                                      />
+                                    )}
+                                    <span className="font-medium text-gray-200">
+                                      <EditableText
+                                        value={skill.name}
+                                        onChange={(value) => {
+                                          const updated = skills.map(s => 
+                                            s.id === skill.id ? { ...s, name: value } : s
+                                          );
+                                          onUpdateSkills(updated);
+                                        }}
+                                        isEditing={isEditing}
+                                        className="font-medium text-gray-200"
+                                        placeholder="Skill name"
+                                      />
+                                    </span>
                                   </div>
-                                  <span className="text-sm text-gray-400 w-8 text-center">
-                                    {skill.level}%
-                                  </span>
+                                  
+                                  {isEditing && (
+                                    <div className="space-y-2">
+                                      <div>
+                                        <label className="text-xs text-gray-400 block mb-1">Category:</label>
+                                        <EditableText
+                                          value={skill.category}
+                                          onChange={(value) => {
+                                            const updated = skills.map(s => 
+                                              s.id === skill.id ? { ...s, category: value } : s
+                                            );
+                                            onUpdateSkills(updated);
+                                          }}
+                                          isEditing={isEditing}
+                                          className="text-cyan-400 text-sm"
+                                          placeholder="Category"
+                                        />
+                                      </div>
+                                      <div>
+                                        <label className="text-xs text-gray-400 block mb-1">Logo URL:</label>
+                                        <EditableText
+                                          value={skill.logo || ''}
+                                          onChange={(value) => {
+                                            const updated = skills.map(s => 
+                                              s.id === skill.id ? { ...s, logo: value } : s
+                                            );
+                                            onUpdateSkills(updated);
+                                          }}
+                                          isEditing={isEditing}
+                                          className="text-purple-400 text-xs"
+                                          placeholder="Logo URL"
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2 flex-1">
+                                      <div className="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
+                                        <div 
+                                          className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all duration-300"
+                                          style={{ width: `${skill.level}%` }}
+                                        />
+                                      </div>
+                                      <div className="flex items-center gap-1">
+                                        {isEditing ? (
+                                          <input
+                                            type="number"
+                                            min="0"
+                                            max="100"
+                                            value={skill.level}
+                                            onChange={(e) => {
+                                              const value = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
+                                              const updated = skills.map(s => 
+                                                s.id === skill.id ? { ...s, level: value } : s
+                                              );
+                                              onUpdateSkills(updated);
+                                            }}
+                                            className="w-12 text-sm text-center bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-white focus:outline-none focus:border-cyan-400"
+                                          />
+                                        ) : (
+                                          <span className="text-sm text-gray-400 w-8 text-center">
+                                            {skill.level}
+                                          </span>
+                                        )}
+                                        <span className="text-sm text-gray-400">%</span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
+                                
                                 {isEditing && (
                                   <motion.button
                                     whileHover={{ scale: 1.1 }}
@@ -347,22 +408,6 @@ export const About: React.FC<AboutProps> = ({
                                   >
                                     <Trash2 className="w-3 h-3" />
                                   </motion.button>
-                                )}
-                                {isEditing && (
-                                  <div className="absolute top-full left-0 right-0 mt-2 p-2 bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                    <EditableText
-                                      value={skill.logo || ''}
-                                      onChange={(value) => {
-                                        const updated = skills.map(s => 
-                                          s.id === skill.id ? { ...s, logo: value } : s
-                                        );
-                                        onUpdateSkills(updated);
-                                      }}
-                                      isEditing={isEditing}
-                                      className="text-white text-xs"
-                                      placeholder="Logo URL"
-                                    />
-                                  </div>
                                 )}
                               </motion.div>
                             ))}
