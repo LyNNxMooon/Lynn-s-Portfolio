@@ -163,7 +163,7 @@ export const Hero: React.FC<HeroProps> = ({ personalInfo, onUpdatePersonalInfo, 
               <img
                 src={personalInfo.photo}
                 alt={personalInfo.name}
-                className="w-90 h-110 rounded-full mx-auto mb-6 object-cover shadow-2xl"
+                className="w-85 h-85 rounded-full mx-auto mb-6 object-cover shadow-2xl"
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-xl"></div>
             </motion.div>
