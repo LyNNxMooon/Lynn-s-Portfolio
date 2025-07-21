@@ -116,32 +116,29 @@ export const About: React.FC<AboutProps> = ({
               >
                 {activeTab === 'about' && (
                   <div className="space-y-6">
-  <h3 className="text-2xl font-semibold text-white">About Me</h3>
-  {isEditing ? (
-    // Render the editable input when in editing mode
-    <div className="text-gray-300 leading-relaxed">
-      <EditableText
-        value={personalInfo.aboutMe}
-        onChange={(value) => onUpdatePersonalInfo({ ...personalInfo, aboutMe: value })}
-        isEditing={isEditing}
-        className="text-gray-300 leading-relaxed"
-        placeholder="Tell us about yourself..."
-        multiline
-      />
-    </div>
-  ) : (
-    // Render the formatted paragraphs when in viewing mode
-    <div className="text-gray-300 leading-relaxed">
-      {personalInfo.aboutMe.split('\n').map((line, index) => (
-        <p key={index} className="mb-4">
-          {line}
-        </p>
-      ))}
-    </div>
-  )}
-</div>
+                    <h3 className="text-2xl font-semibold text-white">About Me</h3>
+                    {isEditing ? (
+                      <div className="text-gray-300 leading-relaxed">
+                        <EditableText
+                          value={personalInfo.aboutMe}
+                          onChange={(value) => onUpdatePersonalInfo({ ...personalInfo, aboutMe: value })}
+                          isEditing={isEditing}
+                          className="text-gray-300 leading-relaxed"
+                          placeholder="Tell us about yourself..."
+                          multiline
+                        />
+                      </div>
+                   ) : (
+                      <div className="text-gray-300 leading-relaxed">
+                        {personalInfo.aboutMe.split('\n\n').map((line, index) => (
+                          <p key={index} className="mb-4">
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+                   )}
+                 </div>
                 )}
-
                 {activeTab === 'education' && (
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
