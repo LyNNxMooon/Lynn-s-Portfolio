@@ -23,7 +23,7 @@ export const About: React.FC<AboutProps> = ({
   onUpdateSkills,
   isEditing
 }) => {
-  const [activeTab, setActiveTab] = useState<'about' | 'education' | 'skills'>('about');
+  const [activeTab, setActiveTab] = useState<'about' | 'education' | 'skills'>('skills');
 
   const tabs = [
     { id: 'about', label: 'About Me', icon: User },
