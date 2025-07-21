@@ -301,8 +301,8 @@ export const About: React.FC<AboutProps> = ({
                                 transition={{ delay: (categoryIndex * 0.1) + (skillIndex * 0.05) }}
                                 className="p-3 bg-gray-800/50 rounded-lg border border-gray-700 relative group"
                               >
-                                <div className="space-y-3">
-                                  <div className="flex items-center gap-3">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3 flex-1">
                                     {skill.logo && (
                                       <img 
                                         src={skill.logo} 
@@ -313,7 +313,7 @@ export const About: React.FC<AboutProps> = ({
                                         }}
                                       />
                                     )}
-                                    <span className="font-medium text-gray-200">
+                                    <span className="font-medium text-gray-200 flex-1">
                                       <EditableText
                                         value={skill.name}
                                         onChange={(value) => {
@@ -329,75 +329,73 @@ export const About: React.FC<AboutProps> = ({
                                     </span>
                                   </div>
                                   
-                                  {isEditing && (
-                                    <div className="space-y-2">
-                                      <div>
-                                        <label className="text-xs text-gray-400 block mb-1">Category:</label>
-                                        <EditableText
-                                          value={skill.category}
-                                          onChange={(value) => {
-                                            const updated = skills.map(s => 
-                                              s.id === skill.id ? { ...s, category: value } : s
-                                            );
-                                            onUpdateSkills(updated);
-                                          }}
-                                          isEditing={isEditing}
-                                          className="text-cyan-400 text-sm"
-                                          placeholder="Category"
-                                        />
-                                      </div>
-                                      <div>
-                                        <label className="text-xs text-gray-400 block mb-1">Logo URL:</label>
-                                        <EditableText
-                                          value={skill.logo || ''}
-                                          onChange={(value) => {
-                                            const updated = skills.map(s => 
-                                              s.id === skill.id ? { ...s, logo: value } : s
-                                            );
-                                            onUpdateSkills(updated);
-                                          }}
-                                          isEditing={isEditing}
-                                          className="text-purple-400 text-xs"
-                                          placeholder="Logo URL"
-                                        />
-                                      </div>
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
+                                      <div 
+                                        className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all duration-300"
+                                        style={{ width: `${skill.level}%` }}
+                                      />
                                     </div>
-                                  )}
-                                  
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2 flex-1">
-                                      <div className="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
-                                        <div 
-                                          className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full transition-all duration-300"
-                                          style={{ width: `${skill.level}%` }}
+                                    <div className="flex items-center gap-1">
+                                      {isEditing ? (
+                                        <input
+                                          type="number"
+                                          min="0"
+                                          max="100"
+                                          value={skill.level}
+                                          onChange={(e) => {
+                                            const value = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
+                                            const updated = skills.map(s => 
+                                              s.id === skill.id ? { ...s, level: value } : s
+                                            );
+                                            onUpdateSkills(updated);
+                                          }}
+                                          className="w-12 text-sm text-center bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-white focus:outline-none focus:border-cyan-400"
                                         />
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        {isEditing ? (
-                                          <input
-                                            type="number"
-                                            min="0"
-                                            max="100"
-                                            value={skill.level}
-                                            onChange={(e) => {
-                                              const value = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
-                                              const updated = skills.map(s => 
-                                                s.id === skill.id ? { ...s, level: value } : s
-                                              );
-                                              onUpdateSkills(updated);
-                                            }}
-                                            className="w-12 text-sm text-center bg-gray-700 border border-gray-600 rounded px-1 py-0.5 text-white focus:outline-none focus:border-cyan-400"
-                                          />
-                                        ) : (
-                                          <span className="text-sm text-gray-400 w-8 text-center">
-                                            {skill.level}
-                                          </span>
-                                        )}
-                                        <span className="text-sm text-gray-400">%</span>
-                                      </div>
+                                      ) : (
+                                        <span className="text-sm text-gray-400 w-8 text-center">
+                                          {skill.level}
+                                        </span>
+                                      )}
+                                      <span className="text-sm text-gray-400">%</span>
                                     </div>
                                   </div>
                                 </div>
+                                
+                                {isEditing && (
+                                  <div className="mt-3 pt-3 border-t border-gray-700 space-y-2">
+                                    <div>
+                                      <label className="text-xs text-gray-400 block mb-1">Category:</label>
+                                      <EditableText
+                                        value={skill.category}
+                                        onChange={(value) => {
+                                          const updated = skills.map(s => 
+                                            s.id === skill.id ? { ...s, category: value } : s
+                                          );
+                                          onUpdateSkills(updated);
+                                        }}
+                                        isEditing={isEditing}
+                                        className="text-cyan-400 text-sm"
+                                        placeholder="Category"
+                                      />
+                                    </div>
+                                    <div>
+                                      <label className="text-xs text-gray-400 block mb-1">Logo URL:</label>
+                                      <EditableText
+                                        value={skill.logo || ''}
+                                        onChange={(value) => {
+                                          const updated = skills.map(s => 
+                                            s.id === skill.id ? { ...s, logo: value } : s
+                                          );
+                                          onUpdateSkills(updated);
+                                        }}
+                                        isEditing={isEditing}
+                                        className="text-purple-400 text-xs"
+                                        placeholder="Logo URL"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                                 
                                 {isEditing && (
                                   <motion.button
