@@ -130,8 +130,8 @@ export const About: React.FC<AboutProps> = ({
                       </div>
                    ) : (
                       <div className="text-gray-300 leading-relaxed">
-                        {personalInfo.aboutMe.split('\n\n').map((line, index) => (
-                          <p key={index} className="mb-4">
+                        {personalInfo.aboutMe.split('\n').map((line, index) => (
+                          <p key={index} className="mb-4 leading-loose">
                             {line}
                           </p>
                         ))}
