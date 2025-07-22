@@ -204,12 +204,12 @@ export const Hero: React.FC<HeroProps> = ({ personalInfo, onUpdatePersonalInfo, 
             />
           </h1>
           
-          <p className="text-l md:text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-8">
+          <p className="text-lg md:text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-8">
             <EditableText
               value={personalInfo.title}
               onChange={(value) => onUpdatePersonalInfo({ ...personalInfo, title: value })}
               isEditing={isEditing}
-              className="text-l md:text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"
+              className="text-lg md:text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"
               placeholder="Your Title"
             />
           </p>
