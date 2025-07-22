@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { PortfolioData } from '../types/portfolio';
 import { supabase } from '../lib/supabase';
+import { defaultPortfolioData } from '../data/portfolioData';
 
 const USER_ID = 'default_portfolio';
+const QUERY_TIMEOUT = 60000; // 1 minute
 
 export const usePortfolioData = () => {
   const [data, setData] = useState<PortfolioData | null>(null);
@@ -14,24 +16,59 @@ export const usePortfolioData = () => {
       setIsLoading(true);
       setError(null);
       
-      const { data: portfolioData, error: fetchError } = await supabase
+      // Create a timeout promise
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Query timeout')), QUERY_TIMEOUT);
+      });
+
+      // Create the query promise with optimized settings
+      const queryPromise = supabase
         .from('portfolio_data')
         .select('data')
         .eq('user_id', USER_ID)
+        .limit(1)
         .single();
 
+      // Race between query and timeout
+      const { data: portfolioData, error: fetchError } = await Promise.race([
+        queryPromise,
+        timeoutPromise
+      ]) as any;
+
       if (fetchError) {
-        console.error('Error fetching portfolio data:', fetchError);
-        setError('Failed to load portfolio data');
+        if (fetchError.code === 'PGRST116') {
+          // No data found, use default data
+          console.log('No portfolio data found, using defaults');
+          setData(defaultPortfolioData);
+        } else {
+          console.error('Error fetching portfolio data:', fetchError);
+          setError('Failed to load portfolio data. Using default data.');
+          setData(defaultPortfolioData);
+        }
         return;
       }
 
       if (portfolioData?.data) {
-        setData(portfolioData.data as PortfolioData);
+        // Validate data structure before setting
+        const loadedData = portfolioData.data as PortfolioData;
+        if (loadedData.personalInfo && loadedData.projects !== undefined) {
+          setData(loadedData);
+        } else {
+          console.warn('Invalid data structure, using defaults');
+          setData(defaultPortfolioData);
+        }
+      } else {
+        setData(defaultPortfolioData);
       }
     } catch (error) {
       console.error('Error loading data:', error);
-      setError('Failed to load portfolio data');
+      if (error instanceof Error && error.message === 'Query timeout') {
+        setError('Database query timed out. Using default data.');
+      } else {
+        setError('Failed to load portfolio data. Using default data.');
+      }
+      // Fallback to default data
+      setData(defaultPortfolioData);
     } finally {
       setIsLoading(false);
     }
@@ -47,16 +84,38 @@ export const usePortfolioData = () => {
       
       // Optimistically update local state
       setData(newData);
+
+      // Optimize data before saving (remove large base64 images if any)
+      const optimizedData = {
+        ...newData,
+        personalInfo: {
+          ...newData.personalInfo,
+          // Ensure photo is a URL, not base64
+          photo: newData.personalInfo.photo?.startsWith('data:') 
+            ? 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=400'
+            : newData.personalInfo.photo
+        }
+      };
       
-      const { error: updateError } = await supabase
+      // Create timeout for update operation
+      const updateTimeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Update timeout')), QUERY_TIMEOUT);
+      });
+
+      const updatePromise = supabase
         .from('portfolio_data')
         .upsert({
           user_id: USER_ID,
-          data: newData,
+          data: optimizedData,
           updated_at: new Date().toISOString()
         }, {
           onConflict: 'user_id'
         });
+
+      const { error: updateError } = await Promise.race([
+        updatePromise,
+        updateTimeoutPromise
+      ]) as any;
 
       if (updateError) {
         console.error('Error saving portfolio data:', updateError);
@@ -70,7 +129,7 @@ export const usePortfolioData = () => {
       return true;
     } catch (error) {
       console.error('Error updating data:', error);
-      setError('Failed to save changes');
+      setError(error instanceof Error && error.message === 'Update timeout' ? 'Save operation timed out' : 'Failed to save changes');
       await loadData();
       return false;
     }
@@ -78,16 +137,31 @@ export const usePortfolioData = () => {
 
   const uploadImage = useCallback(async (file: File): Promise<string | null> => {
     try {
-      // Convert file to base64 for storage
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const result = e.target?.result as string;
-          resolve(result);
-        };
-        reader.onerror = () => reject(new Error('Failed to read file'));
-        reader.readAsDataURL(file);
-      });
+      // Generate unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `portfolio-images/${fileName}`;
+
+      // Upload to Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('portfolio-assets')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Error uploading to storage:', error);
+        setError('Failed to upload image');
+        return null;
+      }
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('portfolio-assets')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
     } catch (error) {
       console.error('Error uploading image:', error);
       setError('Failed to upload image');
