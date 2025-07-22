@@ -9,7 +9,7 @@ export const defaultPortfolioData: PortfolioData = {
     email: "john.doe@gmail.com",
     github: "https://github.com/yourusername",
     phone: "+44 123 456 7890",
-    photo: "https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=400",
+    photo: "https://eznlalmdgyelqrzhdvrl.supabase.co/storage/v1/object/public/mymedia//my_pf.png",
     aboutMe: "Passionate Flutter developer with 3+ years of experience in building cross-platform mobile applications. I love creating intuitive user experiences and solving complex problems with clean, efficient code. Always eager to learn new technologies and contribute to innovative projects."
   },
   projects: [
