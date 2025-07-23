@@ -152,11 +152,11 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                     </span>
                   </div>
                   
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                 {isEditing ? (
                     <EditableText
                       value={experience.description}
                       onChange={(value) => {
-                        const updated = experiences.map(e => 
+                        const updated = experiences.map(e =>
                           e.id === experience.id ? { ...e, description: value } : e
                         );
                         onUpdateExperiences(updated);
@@ -166,7 +166,15 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Job description"
                       multiline
                     />
-                  </p>
+                  ) : (                 
+                    <p className="text-gray-600 leading-relaxed"> 
+                      {experience.description.split('\n').map((line, index) => (
+                        <p key={index} className="mb-4 leading-loose"> 
+                          {line}
+                        </p>
+                      ))}
+                    </p>
+                  )}
                 </div>
               </div>
               
