@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar } from 'lucide-react';
-import { Experience } from '../types/portfolio';
-import { EditableText } from './EditableText';
+import { Experience } from '../types/portfolio'; // Make sure this import path is correct for your project
+import { EditableText } from './EditableText'; // Make sure this import path is correct for your project
 
 interface ExperienceProps {
   experiences: Experience[];
@@ -39,7 +39,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
       transition={{ duration: 0.8 }}
       className="py-20 bg-white" // Assuming white background for experience section as per your original code
     >
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> {/* This sets the max width for the content */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -73,12 +73,10 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              // --- MODIFIED CLASS HERE ---
-              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12 md:w-full`} /* Changed from md:w-1/2 to md:w-full */
-              // --- END MODIFICATION ---
+              // Outer div for layout (timeline position) - kept as is
+              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12`}
             >
-              <div className="md:w-1/2 md:px-6"> {/* This div still controls the padding and alignment */}
-                {/* The inner div is the one we want to expand */}
+              <div className={`md:px-6 md:w-full`}>
                 <div className="bg-white rounded-lg shadow-lg p-6 ml-8 md:ml-0 relative">
                   {isEditing && (
                     <button
