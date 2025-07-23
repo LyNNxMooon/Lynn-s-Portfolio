@@ -65,7 +65,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
-         
+     
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
 
           {experiences.map((experience, index) => {
@@ -77,6 +77,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
             const contentWidthClass = isEven ? 'md:w-3/5 lg:w-2/5 xl:w-7/12' : 'md:w-3/5 lg:w-2/5 xl:w-7/12'; // Same width for both sides
 
             return (
+              // The opening motion.div tag
               <motion.div
                 key={experience.id}
                 initial={{ opacity: 0, x: isEven ? -100 : 100 }}
@@ -84,7 +85,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                 transition={{ delay: index * 0.2, duration: 0.5 }}
                 className={itemClasses}
               >
-               
+                
                 <div className={`${marginClass} ${contentWidthClass} p-6 bg-white rounded-lg shadow-lg relative`}>
                   {isEditing && (
                     <button
@@ -185,11 +186,12 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                     </p>
                   )}
                 </div>
-              </div>
 
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg z-10"></div>
-            </motion.div>
-          ))}
+        
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg z-10"></div>
+              </motion.div> 
+            );
+          })}
         </div>
       </div>
     </motion.section>
