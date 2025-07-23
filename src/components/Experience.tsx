@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar } from 'lucide-react';
-import { Experience } from '../types/portfolio'; // Make sure this import path is correct for your project
-import { EditableText } from './EditableText'; // Make sure this import path is correct for your project
+import { Experience } from '../types/portfolio';
+import { EditableText } from './EditableText';
 
 interface ExperienceProps {
   experiences: Experience[];
@@ -10,17 +10,17 @@ interface ExperienceProps {
   isEditing: boolean;
 }
 
-export const ExperienceComponent: React.FC<ExperienceProps> = ({
-  experiences,
-  onUpdateExperiences,
-  isEditing
+export const ExperienceComponent: React.FC<ExperienceProps> = ({ 
+  experiences, 
+  onUpdateExperiences, 
+  isEditing 
 }) => {
   const addExperience = () => {
     const newExperience: Experience = {
       id: Date.now().toString(),
       title: 'New Position',
       company: 'Company Name',
-      description: 'Job description here...\n\nThis is a new line.',
+      description: 'Job description here...',
       duration: '2024 - Present',
       location: 'Location'
     };
@@ -65,44 +65,34 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
-     
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
-
-          {experiences.map((experience, index) => {
-            const isEven = index % 2 === 0;
-            const itemClasses = `relative flex items-center mb-12 w-full`;
-            // Determine margin for left/right positioning
-            const marginClass = isEven ? 'md:ml-auto' : 'md:mr-auto'; // Push to right or left
-            // Adjust the width of the content box
-            const contentWidthClass = isEven ? 'md:w-3/5 lg:w-2/5 xl:w-7/12' : 'md:w-3/5 lg:w-2/5 xl:w-7/12'; // Same width for both sides
-
-            return (
-              // The opening motion.div tag
-              <motion.div
-                key={experience.id}
-                initial={{ opacity: 0, x: isEven ? -100 : 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.2, duration: 0.5 }}
-                className={itemClasses}
-              >
-                
-                <div className={`${marginClass} ${contentWidthClass} p-6 bg-white rounded-lg shadow-lg relative`}>
+          
+          {experiences.map((experience, index) => (
+            <motion.div
+              key={experience.id}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.5 }}
+              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12`}
+            >
+              <div className="md:w-1/2 md:px-6">
+                <div className="bg-white rounded-lg shadow-lg p-6 ml-8 md:ml-0 relative">
                   {isEditing && (
                     <button
                       onClick={() => deleteExperience(experience.id)}
-                      className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm hover:bg-red-700 z-10"
+                      className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm hover:bg-red-700"
                     >
                       Delete
                     </button>
                   )}
-
+                  
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-blue-600" />
                     <span className="text-sm text-blue-600 font-medium">
                       <EditableText
                         value={experience.duration}
                         onChange={(value) => {
-                          const updated = experiences.map(e =>
+                          const updated = experiences.map(e => 
                             e.id === experience.id ? { ...e, duration: value } : e
                           );
                           onUpdateExperiences(updated);
@@ -113,12 +103,12 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       />
                     </span>
                   </div>
-
+                  
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">
                     <EditableText
                       value={experience.title}
                       onChange={(value) => {
-                        const updated = experiences.map(e =>
+                        const updated = experiences.map(e => 
                           e.id === experience.id ? { ...e, title: value } : e
                         );
                         onUpdateExperiences(updated);
@@ -128,12 +118,12 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Job Title"
                     />
                   </h3>
-
+                  
                   <p className="text-blue-600 font-medium mb-2">
                     <EditableText
                       value={experience.company}
                       onChange={(value) => {
-                        const updated = experiences.map(e =>
+                        const updated = experiences.map(e => 
                           e.id === experience.id ? { ...e, company: value } : e
                         );
                         onUpdateExperiences(updated);
@@ -143,14 +133,14 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Company"
                     />
                   </p>
-
+                  
                   <div className="flex items-center gap-2 mb-3">
                     <MapPin className="w-4 h-4 text-gray-500" />
                     <span className="text-sm text-gray-500">
                       <EditableText
                         value={experience.location}
                         onChange={(value) => {
-                          const updated = experiences.map(e =>
+                          const updated = experiences.map(e => 
                             e.id === experience.id ? { ...e, location: value } : e
                           );
                           onUpdateExperiences(updated);
@@ -161,8 +151,8 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       />
                     </span>
                   </div>
-
-                  {isEditing ? (
+                  
+                 {isEditing ? (
                     <EditableText
                       value={experience.description}
                       onChange={(value) => {
@@ -176,22 +166,21 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Job description"
                       multiline
                     />
-                  ) : (
-                    <p className="text-gray-600 leading-relaxed">
+                  ) : (                 
+                    <p className="text-gray-600 leading-relaxed"> 
                       {experience.description.split('\n').map((line, index) => (
-                        <p key={index} className="mb-4 leading-loose">
+                        <p key={index} className="mb-4 leading-loose"> 
                           {line}
                         </p>
                       ))}
                     </p>
                   )}
                 </div>
-
-        
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg z-10"></div>
-              </motion.div> 
-            );
-          })}
+              </div>
+              
+              <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </motion.section>
