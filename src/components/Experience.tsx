@@ -65,7 +65,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
-          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+          <div className="absolute left-4 md:left-2/3 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
           
           {experiences.map((experience, index) => (
             <motion.div
