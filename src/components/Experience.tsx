@@ -39,7 +39,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
       transition={{ duration: 0.8 }}
       className="py-20 bg-white"
     >
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
               transition={{ delay: index * 0.2, duration: 0.5 }}
               className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12`}
             >
-              <div className="md:w-2/3 md:px-10">
+              <div className="md:w-1/2 md:px-6">
                 <div className="bg-white rounded-lg shadow-lg p-6 ml-8 md:ml-0 relative">
                   {isEditing && (
                     <button
