@@ -65,7 +65,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
-          <div className="absolute left-4 md:left-2/3 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
           
           {experiences.map((experience, index) => (
             <motion.div
@@ -75,7 +75,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
               transition={{ delay: index * 0.2, duration: 0.5 }}
               className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12`}
             >
-              <div className="md:w-1/2 md:px-6">
+              <div className="md:w-2/3 md:px-10">
                 <div className="bg-white rounded-lg shadow-lg p-6 ml-8 md:ml-0 relative">
                   {isEditing && (
                     <button
