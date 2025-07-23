@@ -65,7 +65,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
-   
+         
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
 
           {experiences.map((experience, index) => {
@@ -84,7 +84,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                 transition={{ delay: index * 0.2, duration: 0.5 }}
                 className={itemClasses}
               >
-          
+               
                 <div className={`${marginClass} ${contentWidthClass} p-6 bg-white rounded-lg shadow-lg relative`}>
                   {isEditing && (
                     <button
