@@ -10,10 +10,10 @@ interface ExperienceProps {
   isEditing: boolean;
 }
 
-export const ExperienceComponent: React.FC<ExperienceProps> = ({ 
-  experiences, 
-  onUpdateExperiences, 
-  isEditing 
+export const ExperienceComponent: React.FC<ExperienceProps> = ({
+  experiences,
+  onUpdateExperiences,
+  isEditing
 }) => {
   const addExperience = () => {
     const newExperience: Experience = {
@@ -37,9 +37,9 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="py-20 bg-white"
+      className="py-20 bg-white" // Assuming white background for experience section as per your original code
     >
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> {/* This sets the max width for the content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -66,16 +66,19 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
 
         <div className="relative">
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
-          
+
           {experiences.map((experience, index) => (
             <motion.div
               key={experience.id}
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12`}
+              // --- MODIFIED CLASS HERE ---
+              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12 md:w-full`} /* Changed from md:w-1/2 to md:w-full */
+              // --- END MODIFICATION ---
             >
-              <div className="md:w-1/2 md:px-6">
+              <div className="md:w-1/2 md:px-6"> {/* This div still controls the padding and alignment */}
+                {/* The inner div is the one we want to expand */}
                 <div className="bg-white rounded-lg shadow-lg p-6 ml-8 md:ml-0 relative">
                   {isEditing && (
                     <button
@@ -85,14 +88,14 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       Delete
                     </button>
                   )}
-                  
+
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-blue-600" />
                     <span className="text-sm text-blue-600 font-medium">
                       <EditableText
                         value={experience.duration}
                         onChange={(value) => {
-                          const updated = experiences.map(e => 
+                          const updated = experiences.map(e =>
                             e.id === experience.id ? { ...e, duration: value } : e
                           );
                           onUpdateExperiences(updated);
@@ -103,12 +106,12 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       />
                     </span>
                   </div>
-                  
+
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">
                     <EditableText
                       value={experience.title}
                       onChange={(value) => {
-                        const updated = experiences.map(e => 
+                        const updated = experiences.map(e =>
                           e.id === experience.id ? { ...e, title: value } : e
                         );
                         onUpdateExperiences(updated);
@@ -118,12 +121,12 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Job Title"
                     />
                   </h3>
-                  
+
                   <p className="text-blue-600 font-medium mb-2">
                     <EditableText
                       value={experience.company}
                       onChange={(value) => {
-                        const updated = experiences.map(e => 
+                        const updated = experiences.map(e =>
                           e.id === experience.id ? { ...e, company: value } : e
                         );
                         onUpdateExperiences(updated);
@@ -133,14 +136,14 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Company"
                     />
                   </p>
-                  
+
                   <div className="flex items-center gap-2 mb-3">
                     <MapPin className="w-4 h-4 text-gray-500" />
                     <span className="text-sm text-gray-500">
                       <EditableText
                         value={experience.location}
                         onChange={(value) => {
-                          const updated = experiences.map(e => 
+                          const updated = experiences.map(e =>
                             e.id === experience.id ? { ...e, location: value } : e
                           );
                           onUpdateExperiences(updated);
@@ -151,8 +154,8 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       />
                     </span>
                   </div>
-                  
-                 {isEditing ? (
+
+                  {isEditing ? (
                     <EditableText
                       value={experience.description}
                       onChange={(value) => {
@@ -166,10 +169,10 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                       placeholder="Job description"
                       multiline
                     />
-                  ) : (                 
-                    <p className="text-gray-600 leading-relaxed"> 
+                  ) : (
+                    <p className="text-gray-600 leading-relaxed">
                       {experience.description.split('\n').map((line, index) => (
-                        <p key={index} className="mb-4 leading-loose"> 
+                        <p key={index} className="mb-4 leading-loose">
                           {line}
                         </p>
                       ))}
@@ -177,7 +180,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                   )}
                 </div>
               </div>
-              
+
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
             </motion.div>
           ))}
