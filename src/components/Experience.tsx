@@ -20,7 +20,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
       id: Date.now().toString(),
       title: 'New Position',
       company: 'Company Name',
-      description: 'Job description here...\n\nThis is a new line.', // Added some initial newlines for testing
+      description: 'Job description here...\n\nThis is a new line.',
       duration: '2024 - Present',
       location: 'Location'
     };
@@ -65,22 +65,26 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
         )}
 
         <div className="relative">
+
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+
           {experiences.map((experience, index) => (
             <motion.div
               key={experience.id}
-              initial={{ opacity: 0, y: 50 }} // Simplified initial animation as we're not alternating sides
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }} // Adjusted initial x for better visibility
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              // Removed alternating side classes and made it full width on medium screens and up
-              className={`relative flex flex-col items-center mb-12 md:flex-row md:justify-center`} // Changed layout for full width boxes
+              // Outer div controls the positioning (left/right) and margin
+              className={`relative flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center mb-12 w-full`} // Ensure outer div takes full width
             >
-     
-              <div className={`md:w-4/5 lg:w-3/5 max-w-3xl p-6 bg-white rounded-lg shadow-lg relative ml-8 md:ml-0`}>
+
+              <div className={`md:w-3/5 lg:w-2/5 xl:w-7/12 max-w-xl p-6 bg-white rounded-lg shadow-lg relative ml-8 md:ml-0`}>
+
+
                 {isEditing && (
                   <button
                     onClick={() => deleteExperience(experience.id)}
-                    className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm hover:bg-red-700 z-10" // Added z-10 to ensure it's above other content
+                    className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm hover:bg-red-700 z-10"
                   >
                     Delete
                   </button>
@@ -152,7 +156,6 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                   </span>
                 </div>
 
-          
                 {isEditing ? (
                   <EditableText
                     value={experience.description}
@@ -170,7 +173,7 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                 ) : (
                   <p className="text-gray-600 leading-relaxed">
                     {experience.description.split('\n').map((line, index) => (
-                      <p key={index} className="mb-4 leading-loose"> 
+                      <p key={index} className="mb-4 leading-loose">
                         {line}
                       </p>
                     ))}
@@ -178,7 +181,6 @@ export const ExperienceComponent: React.FC<ExperienceProps> = ({
                 )}
               </div>
 
-            
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
             </motion.div>
           ))}
