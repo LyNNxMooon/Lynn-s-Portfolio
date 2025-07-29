@@ -139,21 +139,33 @@ export const Projects: React.FC<ProjectsProps> = ({ projects, onUpdateProjects, 
                     />
                   </h3>
                   
-                  <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                    <EditableText
-                      value={project.description}
-                      onChange={(value) => {
-                        const updated = projects.map(p => 
-                          p.id === project.id ? { ...p, description: value } : p
-                        );
-                        onUpdateProjects(updated);
-                      }}
-                      isEditing={isEditing}
-                      className="text-gray-300 text-sm leading-relaxed"
-                      placeholder="Project description"
-                      multiline
-                    />
-                  </p>
+                 <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+  {isEditing ? (
+    // Render the EditableText when in editing mode
+    <EditableText
+      value={project.description}
+      onChange={(value) => {
+        const updated = projects.map(p =>
+          p.id === project.id ? { ...p, description: value } : p
+        );
+        onUpdateProjects(updated);
+      }}
+      isEditing={isEditing}
+      className="text-gray-300 text-sm leading-relaxed"
+      placeholder="Project description"
+      multiline
+    />
+  ) : (
+    // Render the formatted paragraphs when in viewing mode
+    <div className="text-gray-300 leading-relaxed"> {/* Added a div to wrap the paragraphs */}
+      {project.description.split('\n').map((line, index) => (
+        <p key={index} className="mb-4 leading-loose"> {/* Added mb-4 and leading-loose */}
+          {line}
+        </p>
+      ))}
+    </div>
+  )}
+</p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.map((tech, techIndex) => (
