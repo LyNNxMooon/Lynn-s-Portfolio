@@ -156,15 +156,29 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold text-white">About This Project</h3>
                 <div className="text-gray-300 leading-relaxed">
-                  <EditableText
-                    value={project.detailedDescription || project.description}
-                    onChange={(value) => onUpdateProject({ ...project, detailedDescription: value })}
-                    isEditing={isEditing}
-                    className="text-gray-300 leading-relaxed"
-                    placeholder="Detailed project description..."
-                    multiline
-                  />
-                </div>
+  {isEditing ? (
+    // Render the EditableText when in editing mode
+    <EditableText
+      value={project.detailedDescription || project.description}
+      onChange={(value) => onUpdateProject({ ...project, detailedDescription: value })}
+      isEditing={isEditing}
+      className="text-gray-300 leading-relaxed"
+      placeholder="Detailed project description..."
+      multiline
+    />
+  ) : (
+    // Render the formatted paragraphs when in viewing mode
+    <div className="text-gray-300 leading-relaxed"> {/* Wrap paragraphs in a div */}
+      {(project.detailedDescription || project.description)
+        .split('\n')
+        .map((line, index) => (
+          <p key={index} className="mb-4 leading-loose"> {/* Add spacing and line height */}
+            {line}
+          </p>
+        ))}
+    </div>
+  )}
+</div>
               </div>
 
               {/* Technologies */}
