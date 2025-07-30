@@ -117,6 +117,7 @@ export const About: React.FC<AboutProps> = ({
                 {activeTab === 'about' && (
                   <div className="space-y-6">
                     <h3 className="text-2xl font-semibold text-white">About Me</h3>
+                    <h4 className="text-xl font-semibold text-white">Age: 21 | Nationality: Myanmar | Current Address: Siem Reap, Cambodia</h4>
                     {isEditing ? (
                       <div className="text-gray-300 leading-relaxed">
                         <EditableText
