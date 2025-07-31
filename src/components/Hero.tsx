@@ -215,32 +215,32 @@ export const Hero: React.FC<HeroProps> = ({ personalInfo, onUpdatePersonalInfo, 
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          {[
-            { label: 'About Me', target: 'about' },
-            { label: 'Projects', target: 'projects' },
-            { label: 'Work Exp', target: 'experience' },
-            { label: '⌯⌲', target: 'contact' }
-          ].map((button, index) => (
-            <motion.button
-              key={button.target}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection(button.target)}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg font-semibold shadow-lg hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 border border-purple-500/30"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + index * 0.1 }}
-            >
-              {button.label}
-            </motion.button>
-          ))}
-        </motion.div>
+       <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.6, duration: 0.5 }}
+  className="flex flex-col sm:flex-row gap-4 justify-center"
+>
+  {[
+    { label: 'About Me', target: 'about' },
+    { label: 'Projects', target: 'projects' },
+    { label: 'Work Exp', target: 'experience' },
+    { label: '➤', target: 'contact' }
+  ].map((button, index) => (
+    <motion.button
+      key={button.target}
+      whileHover={{ scale: 1.05, y: -2 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => scrollToSection(button.target)}
+      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg font-semibold shadow-lg hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 border border-purple-500/30" // <-- Changed px-8 py-4 to px-6 py-3
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8 + index * 0.1 }}
+    >
+      {button.label}
+    </motion.button>
+  ))}
+</motion.div>
       </div>
     </motion.section>
   );
