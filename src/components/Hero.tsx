@@ -225,7 +225,7 @@ export const Hero: React.FC<HeroProps> = ({ personalInfo, onUpdatePersonalInfo, 
     { label: 'About Me', target: 'about' },
     { label: 'Projects', target: 'projects' },
     { label: 'Work Exp', target: 'experience' },
-    { label: '➤', target: 'contact' }
+    { label: 'Contact', target: 'contact' }
   ].map((button, index) => (
     <motion.button
       key={button.target}
